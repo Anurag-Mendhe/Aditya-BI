@@ -15,9 +15,8 @@ warnings.filterwarnings("ignore")
 # Load dataset
 
 df = pd.read_csv(
-	"/home/anurag/Codes_7th_Sem/BI/BIDatasets/Assign4/agricultural_genomics.csv"
-	low_memory=False
-)
+	r"C:/Users/Anurag/Desktop/agricultural_genomics.csv"
+	)
 
 print("AGRICULTURAL GENOMICS AND CROP IMPROVEMENT")
 print("Dataset Shape:", df.shape)
@@ -135,8 +134,8 @@ for trait in required_traits:
 				"Genotype_Groups": len(groups)
 			})
 		
-		except ValueError:
-			continue
+	except ValueError:
+		continue
 
 	if results:
 		result_df = pd.DataFrame(results)
@@ -174,24 +173,23 @@ else:
 =============================================================================
 # 6. VISUALIZE TOP SNP ASSOCIATIONS
 if not association_df.empty:
-	for trait in required_traits:
-		top = association_df[association_df["Trait"] == trait].head(10).copy
+    for trait in required_traits:
+        top = association_df[association_df["Trait"] == trait].head(10).copy()
 
-		if not top.empty:
-		top["-log10_adjusted_p"] = -np.log10(
-			top["Adjusted_P_Value"].clip(lower=1e-300)
-		)
+        if not top.empty:
+            top["-log10_adjusted_p"] = -np.log10(
+                top["Adjusted_P_Value"].clip(lower=1e-300)
+            )
 
-		top = top.sort_values("-log10_adjusted_p")
+            top = top.sort_values("-log10_adjusted_p")
 
-		plt.figure(figsize=(10, 6))
-		plt.barh(top["SNP_Marker"], top["-log10_adjusted_p"])
-		plt.xlabel("-log10(Adjusted P-Value)")
-		plt.ylabel("SNP Marker")
-		plt.title("Top SNP Associations: " + trait)
-		plt.tight_layout()
-		plt.show()
-
+            plt.figure(figsize=(10, 6))
+            plt.barh(top["SNP_Marker"], top["-log10_adjusted_p"])
+            plt.xlabel("-log10(Adjusted P-Value)")
+            plt.ylabel("SNP Marker")
+            plt.title("Top SNP Associations: " + trait)
+            plt.tight_layout()
+            plt.show()
 =============================================================================
 
 # 7. EXPLORE TOP MARKER GENOTYPES
